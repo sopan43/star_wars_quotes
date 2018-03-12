@@ -6,6 +6,7 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
+app.use(express.static('public'))
 var db
 
 //mongodb://<admin>:<admin@1234>@ds125126.mlab.com:25126/sopan-starwars
@@ -35,4 +36,21 @@ app.post('/quotes', (req, res) => {
         console.log('saved to database')
         res.redirect('/')
     })
+})
+
+
+app.put('/quotes', (req, res) => {
+  db.collection('quotes')
+  .findOneAndUpdate({name: 'Yoda'}, {
+    $set: {
+      name: req.body.name,
+      quote: req.body.quote
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
 })
