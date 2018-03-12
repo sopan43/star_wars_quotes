@@ -21,12 +21,12 @@ MongoClient.connect('mongodb://admin12:admin12345@ds125126.mlab.com:25126/sopan-
 
 
 app.get('/', (req, res) => {
-    db.collection('quotes').find().toArray(function(err, results) {
-        console.log(results)
-    })
-    res.sendFile(__dirname + '/index.html')
+  db.collection('quotes').find().toArray((err, result) => {
+    if (err) return console.log(err)
+    // renders index.ejs
+    res.render('index.ejs', {quotes: result})
+  })
 })
-
 
 app.post('/quotes', (req, res) => {
     db.collection('quotes').save(req.body, (err, result) => {
