@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const app = express()
+const port = process.env.PORT || 3000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -14,7 +15,7 @@ var db
 MongoClient.connect('mongodb://heroku_p3x3z7nz:prjvfvdru273q1j4424ovlailm@ds019054.mlab.com:19054/heroku_p3x3z7nz', (err, client) => {
     if (err) return console.log(err)
     db = client.db('heroku_p3x3z7nz') // whatever your database name is
-    app.listen(3000, () => {
+    app.listen(PORT, () => {
         console.log('listening on 3000')
     })
 })
